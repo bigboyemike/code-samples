@@ -2,7 +2,7 @@ import os
 import json
 import discord
 from discord.ext import commands
-import asyncpg
+#import asyncpg
 from datetime import datetime
 import random
 import psutil
