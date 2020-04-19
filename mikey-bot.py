@@ -8,10 +8,10 @@ import subprocess
 import sys
 import re
 import importlib
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 client = discord.Client()
 
-load_dotenv()
+#load_dotenv()
 bot = commands.Bot(command_prefix=';', owner_id=159459536762175488, case_insensitive=True)
 
 async def create_db_pool():
@@ -224,5 +224,5 @@ async def kill(ctx):
 
 
 bot.loop.run_until_complete(create_db_pool())
-token = os.getenv("TOKEN")
-bot.run(token)
+#token = os.getenv("TOKEN")
+bot.run(os.environ['token'])
