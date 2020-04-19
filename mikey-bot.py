@@ -74,24 +74,23 @@ async def nMention(message):
         await mike.send('You\'ve been mentioned!')
 #bot.add_listener(nMention, 'on_message')
 """
-
+cogs = ('misc', 'help', 'mod', 'spv2', 'info')
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, cog=None):
     """Owner only."""
     if cog is None:
-        for filename in os.listdir('./cogs'):
-            if filename.endswith('.py'):
-                await ctx.message.add_reaction('<a:loading:688786923858296937>')
-                bot.unload_extension(f'cogs.{filename[:-3]}')
-                bot.load_extension(f'cogs.{filename[:-3]}')
-                cog1 = 'all cogs'
+        for cog in cogs:
+            await ctx.message.add_reaction('<a:loading:688786923858296937>')
+            bot.unload_extension(cog)
+            bot.load_extension(cog)
+            cog1 = 'all cogs'
 
     else:
         try:
             await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.unload_extension(f"cogs.{cog}")
-            bot.load_extension(f"cogs.{cog}")
+            bot.unload_extension(cog)
+            bot.load_extension(cog)
             cog1 = f'cog `{cog}`'
         except Exception as error:
             print(f"{cog} can't be reloaded")
@@ -107,16 +106,15 @@ async def reload(ctx, cog=None):
 async def unload(ctx, cog=None):
     """Owner only."""
     if cog is None:
-        for filename in os.listdir('./cogs'):
-            if filename.endswith('.py'):
-                await ctx.message.add_reaction('<a:loading:688786923858296937>')
-                bot.unload_extension(f'cogs.{filename[:-3]}')
-                cog1 = 'all cogs'
+        for cog in cogs:
+            await ctx.message.add_reaction('<a:loading:688786923858296937>')
+            bot.unload_extension(cog)
+            cog1 = 'all cogs'
 
     else:
         try:
             await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.unload_extension(f"cogs.{cog}")
+            bot.unload_extension(cog)
             cog1 = f'cog `{cog}`'
         except Exception as error:
             print(f"{cog} can't be reloaded")
@@ -132,16 +130,15 @@ async def unload(ctx, cog=None):
 async def load(ctx, cog=None):
     """Owner only."""
     if cog is None:
-        for filename in os.listdir('./cogs'):
-            if filename.endswith('.py'):
-                await ctx.message.add_reaction('<a:loading:688786923858296937>')
-                bot.load_extension(f'cogs.{filename[:-3]}')
-                cog1 = 'all cogs'
+        for cog in cogs:
+            await ctx.message.add_reaction('<a:loading:688786923858296937>')
+            bot.load_extension(cog)
+            cog1 = 'all cogs'
 
     else:
         try:
             await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.load_extension(f"cogs.{cog}")
+            bot.load_extension(cog)
             cog1 = f'cog `{cog}`'
         except Exception as error:
             await ctx.message.clear_reactions()
@@ -150,45 +147,9 @@ async def load(ctx, cog=None):
 
     await ctx.message.clear_reactions()
     await ctx.send(f'Successfully loaded {cog1}')
-cogs = ('misc', 'help', 'mod', 'spv2', 'info')
+
 for cog in cogs:
     bot.load_extension(cog)
-"""for cog in os.listdir():
-    if cog == "help.py" or cog == "info.py" or cog == "misc.py" or cog == "mod.py" or cog == "spv2.py":
-        try:
-            cog = f"cogs.{cog.replace('.py', '')}"
-            bot.load_extension(cog)
-        except Exception as e:
-            print(f"{cog} can not be loaded")
-            raise e"""
-
-def load_cogs(self, cogs):
-        for cog, kwargs in cogs:
-            try:
-                # This is taken from self.load_extensions but allows kwargs to be passed
-                if cog in self.extensions:
-                    return
-
-                lib = importlib.import_module("src." + cog)
-                if not hasattr(lib, 'setup'):
-                    del lib
-                    del sys.modules[cog]
-                    raise discord.ClientException("extension does not have a setup function")
-
-                lib.setup(self, kwargs)
-                self.extensions[cog] = lib
-            except Exception as e:
-                print('Failed to load extension {}\n{}: {}'.format(cog, type(e).__name__, e))
-
-#load_cogs(cogs)
-
-token = 'NjU1NjM2MjIwNjEyOTY4NDU5.XmhYvg.FB8tVrxeCArhka6U03ORRM7WOFM'
-@bot.command()
-@commands.is_owner()
-async def sort(ctx):
-    """Owner only"""
-    await ctx.send(''.join(sorted(list(token))))
-
 
 @bot.command()
 async def uptime(ctx):
