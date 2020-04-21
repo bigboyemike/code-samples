@@ -216,8 +216,14 @@ class misc(commands.Cog):
         owoMessageC = owoMessageB.replace("nn", "nny")
         owoMessageD = owoMessageC.replace("ee", "e")
         owoMessageE = owoMessageD.replace("ove", "uv")
-        #owoMessageF = owo
         await ctx.send(owoMessageE)
+
+    @commands.command()
+    async def invite(self, ctx):
+        """Sends the bot's invite"""
+        inviteEmbed = discord.Embed(description='[**Link to invite bot**](https://discordapp.com/api/oauth2/authorize?client_id=655636220612968459&permissions=2147483639&scope=bot)', color=discord.Color.red())
+        inviteEmbed.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/ac647b7ca83c05723b0fbc2b15637329.webp')
+        await ctx.send(embed=inviteEmbed)
 
     """@commands.command()
     @commands.has_permissions(mention_everyone=True)
