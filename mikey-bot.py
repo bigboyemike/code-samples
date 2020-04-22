@@ -66,7 +66,7 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-cogs = ('misc', 'help', 'mod', 'spv2', 'info', 'reddit')
+cogs = ('misc', 'help', 'mod', 'spv2', 'info')
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, cog=None):
