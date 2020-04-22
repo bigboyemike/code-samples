@@ -43,7 +43,7 @@ Cooldown = set
 @bot.event
 async def on_message(message):
     if "perhaps" in message.content or "Perhaps" in message.content:
-        await message.add_reaction(emoji='<:perhaps:698744715603869717>')
+        await message.add_reaction(emoji='<:perhaps:702344890746535997>')
     if me.search(message.content):
         mike = bot.get_user(159459536762175488)
         server = message.author.guild.name
@@ -66,15 +66,7 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-"""
-@bot.event(coro='on_message')
-async def nMention(message):
-    if "mike" in message.content:
-        mike = message.guild.get_user(159459536762175488)
-        await mike.send('You\'ve been mentioned!')
-#bot.add_listener(nMention, 'on_message')
-"""
-cogs = ('misc', 'help', 'mod', 'spv2', 'info')
+cogs = ('misc', 'help', 'mod', 'spv2', 'info', 'reddit')
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, cog=None):
