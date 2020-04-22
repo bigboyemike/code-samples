@@ -103,7 +103,7 @@ class misc(commands.Cog):
 
     @commands.command(aliases=['av','pfp', 'profilepic', 'profilepicture'])
     async def avatar(self, ctx, member: discord.Member = None):
-        """Return's a specified user's avatar. [;avatar {user}]"""
+        """Return's a specified user's avatar"""
         try:
             member = ctx.author if not member else member
         except:

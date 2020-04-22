@@ -13,7 +13,7 @@ class mod(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def clearbot(self, ctx, amount: int):
-        """Clear bot messages. [;clearbot {amount}]"""
+        """Clear bot messages"""
         botmsgs = []
         await ctx.message.delete()
         async for msg in ctx.channel.history():
@@ -26,14 +26,14 @@ class mod(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def clear(self, ctx, amount: int):
-        """Clear messages. [;clear {amount}]"""
+        """Clear messages"""
         await ctx.message.delete()
         await ctx.channel.purge(limit=amount)
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
-    async def clearuser(self, ctx, member: discord.Member, amount = int):
-        """Clear a specific user's messages. [;clearuser {user} {amount}]"""
+    async def clearuser(self, ctx, member: discord.Member, amount: int):
+        """Clear a specific user's messages"""
         usermsgs = []
         await ctx.message.delete()
         async for msg in ctx.channel.history():
@@ -45,8 +45,8 @@ class mod(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, member: discord.Member, *, reason=None):
-        """Kicks a specified user. [;kick {user} {optional reason}]"""
+    async def kick(self, ctx, member: discord.Member, *, reason: None):
+        """Kicks a specified user"""
         try:
             server = ctx.author.guild.name
             await member.send(f'You\'ve been kicked from **{server}** for: **{reason}**.')
@@ -58,8 +58,8 @@ class mod(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, member: discord.Member, *, reason=None):
-        """Bans a specified user. [;ban {user} {optional reason}]"""
+    async def ban(self, ctx, member: discord.Member, *, reason: None):
+        """Bans a specified user"""
         try:
             server = ctx.author.guild.name
             await member.send(f'You\'ve been banned from **{server}** for: **{reason}**.')
@@ -71,22 +71,8 @@ class mod(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def banid(self, ctx, userid):
-        """Bans a specified user. [;ban {user} {optional reason}]"""
-        try:
-            user = client.fetch_user(id)
-            #server = ctx.author.guild.name
-            #await member.send(f'You\'ve been banned from **{server}** for: **{reason}**.')
-            await user.ban()
-            await ctx.message.delete()
-            await ctx.send(f'{user} has been successfully banned.')
-        except:
-            await ctx.send(f'There was an error banning {userid}')
-
-    @commands.command()
-    @commands.has_permissions(ban_members=True)
     async def unban(self, ctx, userID: int):
-        """Unbans a specified user. [;unban {user} {optional reason}]"""
+        """Unbans a specified user with their ID"""
         try:
             bannedUser = ctx.bot.get_user(userID)
             await ctx.guild.unban(bannedUser)
@@ -100,7 +86,7 @@ class mod(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_nicknames=True)
     async def nick(self, ctx, member: discord.Member, *, nickname):
-        """Change a user's nickname. [;nick {user} {nickname}]"""
+        """Change a user's nickname"""
         try:
                 nickname = None if not nickname else nickname
         except:

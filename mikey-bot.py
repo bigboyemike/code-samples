@@ -70,7 +70,7 @@ cogs = ('misc', 'help', 'mod', 'spv2', 'info')
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, cog=None):
-    """Owner only."""
+    """Reload cogs"""
     if cog is None:
         for cog in cogs:
             await ctx.message.add_reaction('<a:loading:688786923858296937>')
@@ -96,7 +96,7 @@ async def reload(ctx, cog=None):
 @bot.command()
 @commands.is_owner()
 async def unload(ctx, cog=None):
-    """Owner only."""
+    """Unload cogs"""
     if cog is None:
         for cog in cogs:
             await ctx.message.add_reaction('<a:loading:688786923858296937>')
@@ -120,7 +120,7 @@ async def unload(ctx, cog=None):
 @bot.command()
 @commands.is_owner()
 async def load(ctx, cog=None):
-    """Owner only."""
+    """Load cogs"""
     if cog is None:
         for cog in cogs:
             await ctx.message.add_reaction('<a:loading:688786923858296937>')
@@ -169,7 +169,7 @@ async def info(ctx):
 @bot.command()
 @commands.is_owner()
 async def kill(ctx):
-    """Owner Only."""
+    """Kill the bot"""
     await client.logout()
     print('Bot now offline.')
 
