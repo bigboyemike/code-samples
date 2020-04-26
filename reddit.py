@@ -33,25 +33,16 @@ class reddit(commands.Cog):
                     "selftext":[]}
         subreddit = self.reddit.subreddit('dankmemes')
         for submission in subreddit.top(limit=1):
-            postInfo["title"].append(submission.title)
-            postInfo["score"].append(submission.score)
-            postInfo["id"].append(submission.id)
-            postInfo["url"].append(submission.url)
-            postInfo["comms_num"].append(submission.num_comments)
-            postInfo["created"].append(submission.created)
-            postInfo["body"].append(submission.selftext)
-            postInfo["author"].append(submission.author)
-            postInfo["selftext"].append(submission.selftext)
             if submission.is_self == True:
                 Text = True
             else:
                 Text = False
 
-        postEmbed = discord.Embed(title=postInfo["title"], color=discord.Color.red(), description=postInfo["selftext"])
-        postEmbed.set_footer(text=f'Posted by {postInfo["author"]} with a score of {postInfo["score"]}. Post has {postInfo["comms_num"]} comments.')
-        if Text == False:
-            postEmbed.set_image(url=postInfo["url"])
-        return await ctx.send(embed=postEmbed)
+            postEmbed = discord.Embed(title=submission.title, color=discord.Color.red(), description=submission.selftext)
+            postEmbed.set_footer(text=f'Posted by {submission.author} with a score of {submission.score}. Post has {submission.num_comments} comments.')
+            if Text == False:
+                postEmbed.set_image(url=submission.url)
+            return await ctx.send(embed=postEmbed)
 
 
 
