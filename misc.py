@@ -204,6 +204,7 @@ class misc(commands.Cog):
                 spotifyEmbed.set_thumbnail(url=activity.album_cover_url)
                 return await ctx.send(embed=spotifyEmbed)
             else:
+                await ctx.send(member.activities)
                 return await ctx.send("That user is not listening to Spotify!")
 
     @commands.command()
