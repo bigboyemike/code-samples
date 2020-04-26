@@ -18,7 +18,9 @@ class reddit(commands.Cog):
         #Defining what sub bot looks through
         subreddit = self.reddit.subreddit(sub)
         #If the sort doesn't equal one of the valid sorts, a message is returned saying it's not valid
-        if sort is not 'hot' or 'top' or 'rising' or 'new' or 'best' or 'controversial':
+        if sort 'hot' or 'top' or 'rising' or 'new' or 'best' or 'controversial':
+            pass
+        else:
             return await ctx.send('That sort is not valid!')
         #Picking out the post to get info from
         for submission in subreddit.sort(limit=1):
