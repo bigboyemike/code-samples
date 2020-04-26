@@ -1,1 +1,1 @@
-worker: python==3.8.2 mikey-bot.py
+worker: python mikey-bot.py
