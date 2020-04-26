@@ -13,12 +13,15 @@ class reddit(commands.Cog):
                         password='260426Mf')
     
     @commands.command()
-    async def aaa(self, ctx, sub):
-        """View the top post in a sub"""
+    async def post(self, ctx, sort, sub):
+        """View a post in a sub with a sort of choice"""
         #Defining what sub bot looks through
         subreddit = self.reddit.subreddit(sub)
+        #If the sort doesn't equal one of the valid sorts, a message is returned saying it's not valid
+        if sort != 'hot' or 'top' or 'rising' or 'new' or 'best' or 'controversial':
+            return await ctx.send('That sort is not valid!')
         #Picking out the post to get info from
-        for submission in subreddit.top(limit=1):
+        for submission in subreddit.sort(limit=1):
             #If the post is text, makes variable 'Text' true to then decide if embed should have an image
             if submission.is_self == True:
                 Text = True
@@ -28,11 +31,14 @@ class reddit(commands.Cog):
             if submission.over_18 == True and ctx.channel.is_nsfw() == False:
                 return await ctx.send('This channel must be marked as NSFW to view NSFW subreddits!')
 
+            #Formatting score & comment count
             upvotes = "{:,}".format(submission.score)
             commentNum = "{:,}".format(submission.num_comments)
+            
             #Creates embed. Pulls all of the post info, from title to author, score, and comment amount
             postEmbed = discord.Embed(title=submission.title, color=discord.Color.red(), description=submission.selftext)
-            postEmbed.set_footer(text=f'Posted by {submission.author} with {upvotes}upvotes. Post has {commentNum} comments.')
+            postEmbed.set_author(name=f'Posted by {submission.author}. {upvotes} upvotes, {commentNum} comments.')
+            postEmbed.set_footer(text=f'Post taken from r/{sub} and filtered by {sort}')
             #Uses 'Text' variable to decide if to attach image to embed
             if Text == False:
                 postEmbed.set_image(url=submission.url)
