@@ -37,6 +37,9 @@ class reddit(commands.Cog):
                 Text = True
             else:
                 Text = False
+            if submission.over_18 == True and ctx.channel.is_nsfw() == False:
+                return await ctx.send('This channel must be marked as NSFW to view NSFW subreddits!')
+
 
             postEmbed = discord.Embed(title=submission.title, color=discord.Color.red(), description=submission.selftext)
             postEmbed.set_footer(text=f'Posted by {submission.author} with a score of {submission.score}. Post has {submission.num_comments} comments.')
