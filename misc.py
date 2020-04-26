@@ -204,9 +204,9 @@ class misc(commands.Cog):
                 #spotifyEmbed.add_field(name='**Song Link:**', value=f'{activity.artist}')
                 spotifyEmbed.set_thumbnail(url=activity.album_cover_url)
                 return await ctx.send(embed=spotifyEmbed)
-            else:
+            
                 #await ctx.send(member.ActivityType.custom)
-                return await ctx.send("That user is not listening to Spotify!")
+        return await ctx.send("That user is not listening to Spotify!")
 
     @commands.command()
     async def owo(self, ctx, *, message):
