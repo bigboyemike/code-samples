@@ -47,6 +47,11 @@ class reddit(commands.Cog):
             #Sends embed
             return await ctx.send(embed=postEmbed)
 
+    @commands.command()
+    async def redditmsg(self, ctx, user, *, message):
+        """Send a reddit message to a user"""
+        self.reddit.redditor(user).message(f'This is a message sent from {ctx.author} via Mikey#1211', message)
+
 
 
 def setup(bot):
