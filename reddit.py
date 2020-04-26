@@ -9,7 +9,7 @@ class reddit(commands.Cog):
         self.reddit = praw.Reddit(client_id='iRtVWc-sNNcr0g',
                         client_secret='wfKJrXw484m5F5wNRI-p2n6gBLM',
                         user_agent='Mikey Bot by u/TheHiMaster',
-                        username='TheHiMaster',
+                        username='Mikey_Bot',
                         password='260426Mf')
     
     @commands.command()
@@ -50,7 +50,12 @@ class reddit(commands.Cog):
     @commands.command()
     async def redditmsg(self, ctx, user, *, message):
         """Send a reddit message to a user"""
-        self.reddit.redditor(user).message(f'This is a message sent from {ctx.author} via Mikey#1211', message)
+        try:
+            self.reddit.redditor(user).message(f'This is a message sent from {ctx.author} via Mikey#1211', message)
+            return await message.add_reaction(emoji='<:check:688848512103743511>')
+        except:
+            return await ctx.send('There was an error sending the message. Check to make sure you spelled the username correctly.')
+
 
 
 
