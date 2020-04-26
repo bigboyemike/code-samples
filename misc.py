@@ -184,7 +184,7 @@ class misc(commands.Cog):
 
         for activity in member.activities:
             #if isinstance(activity, Spotify):
-            if isinstance(i, discord.Spotify):
+            if isinstance(activity, discord.Spotify):
                 spotifyEmbed = discord.Embed(color=0x1DB954, name=f'{member.display_name}\'s Spotify Info:', icon_url='https://www.freepnglogos.com/uploads/spotify-logo-png/file-spotify-logo-png-4.png')
                 spotifyEmbed.set_author(name=f'{member.display_name}\'s Spotify:', icon_url='https://i.imgur.com/rZT1mFe.gif')
                 spotifyEmbed.add_field(name='**Song:**', value=f'{activity.title} - [**Link**](https://open.spotify.com/track/{activity.track_id})', inline=True)
