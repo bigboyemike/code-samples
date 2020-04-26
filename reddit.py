@@ -6,24 +6,24 @@ class reddit(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.reddit = praw.Reddit(client_id='iRtVWc-sNNcr0g',
-                        client_secret='wfKJrXw484m5F5wNRI-p2n6gBLM',
-                        user_agent='Mikey Bot by u/TheHiMaster',
+        self.reddit = praw.Reddit(client_id='AEvZJBsDYQtxyg',
+                        client_secret='	fijOdLQH2JpC8y8gxPEt8r5TVoQ',
+                        user_agent='Mikey Bot by u/TheHiMaster. Integrated with Mikey#1211 on Discord.',
                         username='Mikey_Bot',
                         password='260426Mf')
     
     @commands.command()
-    async def post(self, ctx, sort, sub):
-        """View a post in a sub with a sort of choice"""
+    async def toppost(self, ctx, sub):
+        """View the post in a sub"""
         #Defining what sub bot looks through
         subreddit = self.reddit.subreddit(sub)
         #If the sort doesn't equal one of the valid sorts, a message is returned saying it's not valid
-        if sort == 'hot' or 'top' or 'rising' or 'new' or 'best' or 'controversial':
+        """if sort == 'hot' or 'top' or 'rising' or 'new' or 'best' or 'controversial':
             pass
         else:
-            return await ctx.send('That sort is not valid!')
+            return await ctx.send('That sort is not valid!')"""
         #Picking out the post to get info from
-        for submission in subreddit.sort(limit=1):
+        for submission in subreddit.top(limit=1):
             #If the post is text, makes variable 'Text' true to then decide if embed should have an image
             if submission.is_self == True:
                 Text = True
@@ -38,9 +38,9 @@ class reddit(commands.Cog):
             commentNum = "{:,}".format(submission.num_comments)
             
             #Creates embed. Pulls all of the post info, from title to author, score, and comment amount
-            postEmbed = discord.Embed(title=submission.title, color=discord.Color.red(), description=submission.selftext)
-            postEmbed.set_author(name=f'Posted by {submission.author}. {upvotes} upvotes, {commentNum} comments.')
-            postEmbed.set_footer(text=f'Post taken from r/{sub} and filtered by {sort}')
+            postEmbed = discord.Embed(title=f'[{submission.title}]({submission.permalink})', color=discord.Color.red(), description=submission.selftext)
+            postEmbed.set_author(name=f'Posted by u/{submission.author}. {upvotes} upvotes, {commentNum} comments.')
+            postEmbed.set_footer(text=f'Post taken from r/{sub}')
             #Uses 'Text' variable to decide if to attach image to embed
             if Text == False:
                 postEmbed.set_image(url=submission.url)
