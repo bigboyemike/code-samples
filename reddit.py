@@ -21,7 +21,7 @@ class reddit(commands.Cog):
                 "body":[]}
     
     @commands.command()
-    async def aaa(self, ctx):
+    async def aaa(self, ctx, sub):
         
         postInfo = { "title":[],
                     "score":[],
@@ -31,7 +31,7 @@ class reddit(commands.Cog):
                     "body":[],
                     "author":[],
                     "selftext":[]}
-        subreddit = self.reddit.subreddit('dankmemes')
+        subreddit = self.reddit.subreddit(sub)
         for submission in subreddit.top(limit=1):
             if submission.is_self == True:
                 Text = True
