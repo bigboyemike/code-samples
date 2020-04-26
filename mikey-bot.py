@@ -142,6 +142,7 @@ async def load(ctx, cog=None):
 
 for cog in cogs:
     bot.load_extension(cog)
+bot.load_extension('jishaku')
 
 @bot.command()
 async def uptime(ctx):
