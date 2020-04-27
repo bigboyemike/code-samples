@@ -7,7 +7,7 @@ class reddit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.reddit = praw.Reddit(client_id='AEvZJBsDYQtxyg',
-                        client_secret='	fijOdLQH2JpC8y8gxPEt8r5TVoQ',
+                        client_secret='fijOdLQH2JpC8y8gxPEt8r5TVoQ',
                         user_agent='Mikey Bot by u/TheHiMaster. Integrated with Mikey#1211 on Discord.',
                         username='Mikey_Bot',
                         password='260426Mf')
