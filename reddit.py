@@ -50,7 +50,7 @@ class reddit(commands.Cog):
             return await ctx.send(embed=postEmbed)
 
     @commands.command()
-    @commands.is_owner
+    @commands.is_owner()
     async def redditmsg(self, ctx, user, *, message):
         """Send a reddit message to a user"""
         try:
