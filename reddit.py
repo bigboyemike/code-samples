@@ -24,11 +24,13 @@ class reddit(commands.Cog):
             return await ctx.send('That sort is not valid!')"""
         #Picking out the post to get info from
         for submission in subreddit.top(limit=1):
+            
             #If the post is text, makes variable 'Text' true to then decide if embed should have an image
             if submission.is_self == True:
                 Text = True
             else:
                 Text = False
+            
             #If post is marked nsfw, checks to make sure discord channel is set as nsfw too. Makes sure no one sees any nsfw they would otherwise not want to see
             if submission.over_18 == True and ctx.channel.is_nsfw() == False:
                 return await ctx.send('This channel must be marked as NSFW to view NSFW subreddits!')
