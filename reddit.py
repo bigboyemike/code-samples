@@ -40,7 +40,7 @@ class reddit(commands.Cog):
             commentNum = "{:,}".format(submission.num_comments)
             
             #Creates embed. Pulls all of the post info, from title to author, score, and comment amount
-            postEmbed = discord.Embed(title=f'({submission.title})[{submission.permalink}]', color=discord.Color.red(), description=submission.selftext)
+            postEmbed = discord.Embed(title=f'[{submission.title}](https://reddit.com{submission.permalink})', color=discord.Color.red(), description=submission.selftext)
             postEmbed.set_author(name=f'Posted by u/{submission.author}. {upvotes} upvotes, {commentNum} comments.')
             postEmbed.set_footer(text=f'Post taken from r/{sub}')
             #Uses 'Text' variable to decide if to attach image to embed
