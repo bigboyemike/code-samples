@@ -76,5 +76,10 @@ class spv2(commands.Cog):
     async def matthew(self, ctx):
         await ctx.send("Daddy Matthew ❤️")
 
+    @commands.command()
+    @commands.has_any_role(699009243143209071, 665323670868197376, 665296778844700712, 681162165725560886, 699260354231795773, 681163948149702776)
+    async def awooga(self, ctx):
+        await ctx.send("sees woman \n \n My jaw drops to the floor, my eyes extend at a velocity never before seen, I take out a boxing glove and hit myself with it 17 times, pant like a dog, and yell AOOOOGA AOOOOGA then turn to the audience and say in 1930’s New York accent “HOT MAMA, now that’s a dame!”")
+
 def setup(bot):
     bot.add_cog(spv2(bot))

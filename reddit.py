@@ -41,8 +41,8 @@ class reddit(commands.Cog):
             
             #Creates embed. Pulls all of the post info, from title to author, score, and comment amount
             postEmbed = discord.Embed(title=submission.title, url=f'https://reddit.com{submission.permalink}', color=discord.Color.red(), description=submission.selftext)
-            postEmbed.set_author(name=f'Posted by u/{submission.author}. {upvotes} upvotes, {commentNum} comments.')
-            postEmbed.set_footer(text=f'Post taken from r/{sub}')
+            postEmbed.set_author(name=f'{upvotes} upvotes, {commentNum} comments.')
+            postEmbed.set_footer(text=f'Posted by {submission.author}')
             #Uses 'Text' variable to decide if to attach image to embed
             if Text == False:
                 postEmbed.set_image(url=submission.url)
