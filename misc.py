@@ -222,8 +222,8 @@ class misc(commands.Cog):
     @commands.command()
     async def invite(self, ctx):
         """Sends the bot's invite"""
-        inviteEmbed = discord.Embed(title='Link to invite bot', url='https://discordapp.com/api/oauth2/authorize?client_id=655636220612968459&permissions=2147483639&scope=bot', color=discord.Color.red())
-        inviteEmbed.set_footer(text='Mikey#1211', icon_url='https://bit.ly/MikeyBot')
+        inviteEmbed = discord.Embed(title='Link to invite bot', url='https://bit.ly/MikeyBot', color=discord.Color.red())
+        inviteEmbed.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/ac647b7ca83c05723b0fbc2b15637329.webp')
         await ctx.send(embed=inviteEmbed)
     
     @commands.Cog.listener()
