@@ -7,11 +7,11 @@ class reddit(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.reddit = praw.Reddit(client_id='g',
-                        client_secret='g',
+        self.reddit = praw.Reddit(client_id='AEvZJBsDYQtxyg',
+                        client_secret='fijOdLQH2JpC8y8gxPEt8r5TVoQ',
                         user_agent='Mikey Bot by u/TheHiMaster. Integrated with Mikey#1211 on Discord.',
                         username='Mikey_Bot',
-                        password='g')
+                        password='260426Mf')
     
     @commands.command(aliases=['toppost'])
     async def top(self, ctx, sub):
