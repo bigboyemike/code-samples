@@ -1,16 +1,17 @@
 import discord
 from discord.ext import commands
 from datetime import date
+import datetime
 import praw
 class reddit(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.reddit = praw.Reddit(client_id='AEvZJBsDYQtxyg',
-                        client_secret='fijOdLQH2JpC8y8gxPEt8r5TVoQ',
+        self.reddit = praw.Reddit(client_id='g',
+                        client_secret='g',
                         user_agent='Mikey Bot by u/TheHiMaster. Integrated with Mikey#1211 on Discord.',
                         username='Mikey_Bot',
-                        password='260426Mf')
+                        password='g')
     
     @commands.command(aliases=['toppost'])
     async def top(self, ctx, sub):
@@ -73,7 +74,7 @@ class reddit(commands.Cog):
         commentKarma = "{:,}".format(user.comment_karma)
 
         #Obtains account creation date and formats to be user-friendly
-        createdTime = user.created_utc
+        createdTime = datetime.datetime.utcfromtimestamp(user.created_utc)
         ct = createdTime.strftime("%b %d, %Y")
 
         #Creates actual embed. Pulls name and icon, also uses the formatted karma amounts and formatted creation date.
