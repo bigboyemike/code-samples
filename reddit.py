@@ -12,8 +12,8 @@ class reddit(commands.Cog):
                         username='Mikey_Bot',
                         password='260426Mf')
     
-    @commands.command()
-    async def toppost(self, ctx, sub):
+    @commands.command(aliases=['toppost'])
+    async def top(self, ctx, sub):
         """View the post in a sub"""
         #Defining what sub bot looks through
         subreddit = self.reddit.subreddit(sub)
@@ -57,7 +57,19 @@ class reddit(commands.Cog):
             self.reddit.redditor(user).message(f'This is a message sent from {ctx.author} via Mikey#1211', message)
             return await ctx.message.add_reaction(emoji='<:check:688848512103743511>')
         except:
-            return await ctx.send('There was an error sending the message. Check to make sure you spelled the username correctly.')
+            return await ctx.send('There was an error sending the message.')
+
+    @commands.command(aliases=['karma','ri'])
+    async def redditinfo(self, ctx, redditor):
+        """Look at a reddit account's info"""
+        user = self.reddit.redditor(redditor)
+        totalKarma = "{:,}".format(user.comment_karma+user.link_karma)
+        linkKarma = "{:,}".format(user.link_karma)
+        commentKarma = "{:,}".format(user.comment_karma)
+        redditInfoEmbed = discord.Embed(title=user.name, color=discord.Color.red())
+        redditInfoEmbed.set_thumbnail(url=user.icon_img)
+        redditInfoEmbed.add_field(name='<:karma:702194343724974141> **Karma**', value=f'{totalKarma} total \n {linkKarma} post \n {commentKarma} comment')
+        await ctx.send(embed=redditInfoEmbed)
 
 
 
