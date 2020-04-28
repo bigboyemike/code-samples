@@ -25,7 +25,7 @@ class reddit(commands.Cog):
         #Picking out the post to get info from
         for submission in subreddit.top(limit=1):
             
-            #If the post is text, makes variable 'Text' true to then decide if embed should have an image
+            #If the post is text, makes variable 'Text' true to then decide if embed should have an image (if self text there is no image, so it stops it from including an image in the embed)
             if submission.is_self == True:
                 Text = True
             else:
@@ -54,21 +54,34 @@ class reddit(commands.Cog):
     async def redditmsg(self, ctx, user, *, message):
         """Send a reddit message to a user"""
         try:
+            #Attempts to send a message to user specified. Includes a subject with author's name and states it was sent via the bot so receivers are aware. Also adds a reaction to let sender know message was successfully sent. 
             self.reddit.redditor(user).message(f'This is a message sent from {ctx.author} via Mikey#1211', message)
             return await ctx.message.add_reaction(emoji='<:check:688848512103743511>')
         except:
+            #If message sending fails, returns error message.
             return await ctx.send('There was an error sending the message.')
 
     @commands.command(aliases=['karma','ri'])
     async def redditinfo(self, ctx, redditor):
         """Look at a reddit account's info"""
+        #Simplifies the redditor, so it's easier to later use for info.
         user = self.reddit.redditor(redditor)
+        
+        #Formats karma to include commas. Also calculates total karma.
         totalKarma = "{:,}".format(user.comment_karma+user.link_karma)
         linkKarma = "{:,}".format(user.link_karma)
         commentKarma = "{:,}".format(user.comment_karma)
+
+        #Obtains account creation date and formats to be user-friendly
+        createdTime = user.created_utc
+        ct = createdTime.strftime("%b %d, %Y")
+
+        #Creates actual embed. Pulls name and icon, also uses the formatted karma amounts and formatted creation date.
         redditInfoEmbed = discord.Embed(title=user.name, color=discord.Color.red())
         redditInfoEmbed.set_thumbnail(url=user.icon_img)
-        redditInfoEmbed.add_field(name='<:karma:702194343724974141> **Karma**', value=f'{totalKarma} total \n {linkKarma} post \n {commentKarma} comment')
+        redditInfoEmbed.add_field(name='<:karma:702194343724974141> **Karma**', value=f'**{totalKarma} total:** \n {linkKarma} post \n {commentKarma} comment')
+        redditInfoEmbed.set_footer(text=f'Account created on {ct}')
+        #Sends embed
         await ctx.send(embed=redditInfoEmbed)
 
 
