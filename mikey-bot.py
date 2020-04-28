@@ -163,7 +163,7 @@ async def info(ctx):
     guildCount = len(bot.guilds)
     memCount = len(bot.users)
 
-    infoEmbed = discord.Embed(color=discord.Color.red(), name='My info:', description=f'**Uptime:** {days} days, {hours} hours, {minutes} minutes\n**Total Guilds:** {guildCount} \n**Total Users:** {memCount}\n**Bot Owner:** <@159459536762175488>')
+    infoEmbed = discord.Embed(color=discord.Color.red(), name='My info:', description=f'**Uptime:** {days} days, {hours} hours, {minutes} minutes\n**Total Guilds:** {guildCount} \n**Total Users:** {memCount}\n**Total Emojis:** {len(bot.emojis)}\n **Cached Messages:** {len(bot.cached_messages)}\n **Bot Owner:** <@159459536762175488>')
     infoEmbed.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/ac647b7ca83c05723b0fbc2b15637329.webp')
     await ctx.send(embed=infoEmbed)
 
