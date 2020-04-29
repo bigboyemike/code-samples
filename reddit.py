@@ -50,7 +50,7 @@ class reddit(commands.Cog):
         subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
         for submission in subreddit.hot(limit=1):
-            finalEmbed = postInfoGrab(ctx, submission)
+            finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
     @post.command()
@@ -59,7 +59,7 @@ class reddit(commands.Cog):
         subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
         for submission in subreddit.best(limit=1):
-            finalEmbed = postInfoGrab(ctx, submission)
+            finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
     @post.command()
@@ -68,7 +68,7 @@ class reddit(commands.Cog):
         subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
         for submission in subreddit.new(limit=1):
-            finalEmbed = postInfoGrab(ctx, submission)
+            finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
     @post.command()
@@ -77,7 +77,7 @@ class reddit(commands.Cog):
         subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
         for submission in subreddit.rising(limit=1):
-            finalEmbed = postInfoGrab(ctx, submission)
+            finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
     @post.command()
@@ -86,7 +86,7 @@ class reddit(commands.Cog):
         subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
         for submission in subreddit.controversial(limit=1):
-            finalEmbed = postInfoGrab(ctx, submission)
+            finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
     @post.command()
@@ -95,7 +95,7 @@ class reddit(commands.Cog):
         subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
         for submission in subreddit.top(limit=1):
-            finalEmbed = postInfoGrab(ctx, submission)
+            finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
             
     @commands.command()
