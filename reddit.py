@@ -49,9 +49,11 @@ class reddit(commands.Cog):
         #Defining what sub bot looks through
         subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
-        for submission in subreddit.hot(limit=1):
+        for submission in subreddit.hot(limit=3):
+            if submission.stickied == True:
+                return
             finalEmbed = await postInfoGrab(ctx, submission)
-        return await ctx.send(embed=finalEmbed)
+            return await ctx.send(embed=finalEmbed)
 
     @post.command()
     async def best(self, ctx, subreddit):    
