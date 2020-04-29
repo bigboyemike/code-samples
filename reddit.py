@@ -51,9 +51,9 @@ class reddit(commands.Cog):
         #Picking out the post to get info from
         for submission in subreddit.hot(limit=3):
             if submission.stickied == True:
-                return
+                continue
             finalEmbed = await postInfoGrab(ctx, submission)
-            return await ctx.send(embed=finalEmbed)
+        return await ctx.send(embed=finalEmbed)
 
     @post.command()
     async def best(self, ctx, subreddit):    
