@@ -4,7 +4,7 @@ from datetime import date
 import datetime
 import praw
 
-def postInfoGrab(ctx, submission):
+async def postInfoGrab(ctx, submission):
     #If the post is text, makes variable 'Text' true to then decide if embed should have an image (if self text there is no image, so it stops it from including an image in the embed)
     if submission.is_self == True:
         Text = True
