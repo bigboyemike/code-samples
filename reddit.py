@@ -21,7 +21,7 @@ async def postInfoGrab(ctx, submission):
             
     #Creates embed. Pulls all of the post info, from title to author, score, and comment amount
     postEmbed = discord.Embed(title=submission.title, url=f'https://reddit.com{submission.permalink}', color=discord.Color.red(), description=submission.selftext)
-    postEmbed.set_author(name=f'{upvotes} upvotes, {commentNum} comments.')
+    postEmbed.set_author(name=f'{upvotes} upvotes and {commentNum} comments.')
     postEmbed.set_footer(text=f'Posted by {submission.author}')
     #Uses 'Text' variable to decide if to attach image to embed
     if Text == False:
@@ -42,8 +42,9 @@ class reddit(commands.Cog):
     async def post(self, ctx):
         """View the post in a sub"""
         if ctx.invoked_subcommand is None:
-            return await ctx.send("No sort and subreddit were provided. Accepted sorts are hot, best, new, rising, controversial, and top")
+            return await ctx.send("No sort and subreddit were provided. Accepted sorts are hot, new, rising, controversial, and top.")
         
+    #If someone wants to view a post in hot
     @post.command()
     async def hot(self, ctx, subreddit):    
         #Defining what sub bot looks through
@@ -55,15 +56,7 @@ class reddit(commands.Cog):
             finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
-    @post.command()
-    async def best(self, ctx, subreddit):    
-        #Defining what sub bot looks through
-        subreddit = self.reddit.subreddit(subreddit)
-        #Picking out the post to get info from
-        for submission in subreddit.best(limit=1):
-            finalEmbed = await postInfoGrab(ctx, submission)
-        return await ctx.send(embed=finalEmbed)
-
+    #If someone wants to view a post in new
     @post.command()
     async def new(self, ctx, subreddit):    
         #Defining what sub bot looks through
@@ -73,6 +66,7 @@ class reddit(commands.Cog):
             finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
+    #If someone wants to view a post in rising
     @post.command()
     async def rising(self, ctx, subreddit):    
         #Defining what sub bot looks through
@@ -82,6 +76,7 @@ class reddit(commands.Cog):
             finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
+    #If someone wants to view a post in controversial
     @post.command()
     async def controversial(self, ctx, subreddit):    
         #Defining what sub bot looks through
@@ -91,6 +86,7 @@ class reddit(commands.Cog):
             finalEmbed = await postInfoGrab(ctx, submission)
         return await ctx.send(embed=finalEmbed)
 
+    #If someone wants to view a post in top
     @post.command()
     async def top(self, ctx, subreddit):    
         #Defining what sub bot looks through
