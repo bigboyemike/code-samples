@@ -3,6 +3,7 @@ from datetime import date
 from discord.ext import commands
 import inspect
 from datetime import datetime
+import typing
 
 class info(commands.Cog):
 
@@ -10,27 +11,24 @@ class info(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=['ui','user'])
-    async def userinfo(self, ctx, member: discord.Member = None):
+    async def userinfo(self, ctx, *, user: typing.Union[discord.Member, discord.User, int]):
         """Get info about a user"""
-        try:
-            member = ctx.author if not member else member
-        except:
-            return ctx.send('There was an error finding that user')
+        user = user or ctx.author
+        if isinstance(user, int):
+            user = await self.bot.fetch_user(user)
         
-        
-        
-        if member == self.bot.user:
+        if user == self.bot.user:
             botStatus = 'Yes'
-        if member != self.bot.user:
+        else:
             botStatus = 'No'
 
-        createdTime = member.created_at
+        createdTime = user.created_at
         ct = createdTime.strftime("%b %d, %Y")
-        joinedTime = member.joined_at
+        joinedTime = user.joined_at
         jt = joinedTime.strftime("%b %d, %Y")
 
         roles = []
-        for role in member.roles:
+        for role in user.roles:
             roles.append(role)
 
         statusE = {
@@ -41,27 +39,27 @@ class info(commands.Cog):
         }
 
         try:
-            embed = discord.Embed(color=member.color, title=f'{member.display_name}\'s Info', footer=f'Requested by {ctx.author}')
-            embed.set_author(name=f'{member}', icon_url=member.avatar_url)
-            embed.set_thumbnail(url=member.avatar_url)
+            embed = discord.Embed(color=user.color, title=f'{user.display_name}\'s Info', footer=f'Requested by {ctx.author}')
+            embed.set_author(name=f'{user}', icon_url=user.avatar_url)
+            embed.set_thumbnail(url=user.avatar_url)
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.avatar_url)
-            embed.add_field(name='**ID:**', value=member.id, inline=True)
+            embed.add_field(name='**ID:**', value=user.id, inline=True)
             embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
             embed.add_field(name='**User\'s roles:**', value=" ".join([role.mention for role in roles if role.id != ctx.guild.id]), inline=False) 
-            embed.add_field(name='**User\'s Status:**', value=statusE[str(member.web_status)] + 'Web Status' + '\n' + statusE[str(member.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(member.desktop_status)] + 'Desktop Status', inline=False)
+            embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
             embed.add_field(name='**Joined server:**', value=jt, inline=True)
             embed.timestamp = ctx.message.created_at
             await ctx.send(embed=embed)
         except discord.errors.HTTPException:
-            embed = discord.Embed(color=member.color, title=f'{member.display_name}\'s Info', footer=f'Requested by {ctx.author}')
-            embed.set_author(name=f'{member}', icon_url=member.avatar_url)
-            embed.set_thumbnail(url=member.avatar_url)
+            embed = discord.Embed(color=user.color, title=f'{user.display_name}\'s Info', footer=f'Requested by {ctx.author}')
+            embed.set_author(name=f'{user}', icon_url=user.avatar_url)
+            embed.set_thumbnail(url=user.avatar_url)
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.avatar_url)
-            embed.add_field(name='**ID:**', value=member.id, inline=True)
+            embed.add_field(name='**ID:**', value=user.id, inline=True)
             embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
             embed.add_field(name='**User\'s roles:**', value='User has no roles', inline=False) 
-            embed.add_field(name='**User\'s Status:**', value=statusE[str(member.web_status)] + 'Web Status' + '\n' + statusE[str(member.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(member.desktop_status)] + 'Desktop Status', inline=False)
+            embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
             embed.add_field(name='**Joined server:**', value=jt, inline=True)
             embed.timestamp = ctx.message.created_at

@@ -3,6 +3,31 @@ from discord.ext import commands
 from datetime import date
 import datetime
 import praw
+
+def postInfoGrab(ctx, submission):
+    #If the post is text, makes variable 'Text' true to then decide if embed should have an image (if self text there is no image, so it stops it from including an image in the embed)
+    if submission.is_self == True:
+        Text = True
+    else:
+        Text = False
+            
+    #If post is marked nsfw, checks to make sure discord channel is set as nsfw too. Makes sure no one sees any nsfw they would otherwise not want to see
+    if submission.over_18 == True and ctx.channel.is_nsfw() == False:
+        return await ctx.send('This channel must be marked as NSFW to view NSFW subreddits!')
+
+    #Formatting score & comment count
+    upvotes = "{:,}".format(submission.score)
+    commentNum = "{:,}".format(submission.num_comments)
+            
+    #Creates embed. Pulls all of the post info, from title to author, score, and comment amount
+    postEmbed = discord.Embed(title=submission.title, url=f'https://reddit.com{submission.permalink}', color=discord.Color.red(), description=submission.selftext)
+    postEmbed.set_author(name=f'{upvotes} upvotes, {commentNum} comments.')
+    postEmbed.set_footer(text=f'Posted by {submission.author}')
+    #Uses 'Text' variable to decide if to attach image to embed
+    if Text == False:
+        postEmbed.set_image(url=submission.url)
+    return postEmbed
+
 class reddit(commands.Cog):
 
     def __init__(self, bot):
@@ -12,44 +37,67 @@ class reddit(commands.Cog):
                         user_agent='Mikey Bot by u/TheHiMaster. Integrated with Mikey#1211 on Discord.',
                         username='Mikey_Bot',
                         password='260426Mf')
-    
-    @commands.command(aliases=['toppost'])
-    async def top(self, ctx, sub):
+        
+    @commands.group()
+    async def post(self, ctx):
         """View the post in a sub"""
+        if ctx.invoked_subcommand is None:
+            return await ctx.send("No sort and subreddit were provided. Accepted sorts are hot, best, new, rising, controversial, and top")
+        
+    @post.command()
+    async def hot(self, ctx, subreddit):    
         #Defining what sub bot looks through
-        subreddit = self.reddit.subreddit(sub)
-        #If the sort doesn't equal one of the valid sorts, a message is returned saying it's not valid
-        """if sort == 'hot' or 'top' or 'rising' or 'new' or 'best' or 'controversial':
-            pass
-        else:
-            return await ctx.send('That sort is not valid!')"""
+        subreddit = self.reddit.subreddit(subreddit)
+        #Picking out the post to get info from
+        for submission in subreddit.hot(limit=1):
+            finalEmbed = postInfoGrab(ctx, submission)
+        return await ctx.send(embed=finalEmbed)
+
+    @post.command()
+    async def best(self, ctx, subreddit):    
+        #Defining what sub bot looks through
+        subreddit = self.reddit.subreddit(subreddit)
+        #Picking out the post to get info from
+        for submission in subreddit.best(limit=1):
+            finalEmbed = postInfoGrab(ctx, submission)
+        return await ctx.send(embed=finalEmbed)
+
+    @post.command()
+    async def new(self, ctx, subreddit):    
+        #Defining what sub bot looks through
+        subreddit = self.reddit.subreddit(subreddit)
+        #Picking out the post to get info from
+        for submission in subreddit.new(limit=1):
+            finalEmbed = postInfoGrab(ctx, submission)
+        return await ctx.send(embed=finalEmbed)
+
+    @post.command()
+    async def rising(self, ctx, subreddit):    
+        #Defining what sub bot looks through
+        subreddit = self.reddit.subreddit(subreddit)
+        #Picking out the post to get info from
+        for submission in subreddit.rising(limit=1):
+            finalEmbed = postInfoGrab(ctx, submission)
+        return await ctx.send(embed=finalEmbed)
+
+    @post.command()
+    async def controversial(self, ctx, subreddit):    
+        #Defining what sub bot looks through
+        subreddit = self.reddit.subreddit(subreddit)
+        #Picking out the post to get info from
+        for submission in subreddit.controversial(limit=1):
+            finalEmbed = postInfoGrab(ctx, submission)
+        return await ctx.send(embed=finalEmbed)
+
+    @post.command()
+    async def top(self, ctx, subreddit):    
+        #Defining what sub bot looks through
+        subreddit = self.reddit.subreddit(subreddit)
         #Picking out the post to get info from
         for submission in subreddit.top(limit=1):
+            finalEmbed = postInfoGrab(ctx, submission)
+        return await ctx.send(embed=finalEmbed)
             
-            #If the post is text, makes variable 'Text' true to then decide if embed should have an image (if self text there is no image, so it stops it from including an image in the embed)
-            if submission.is_self == True:
-                Text = True
-            else:
-                Text = False
-            
-            #If post is marked nsfw, checks to make sure discord channel is set as nsfw too. Makes sure no one sees any nsfw they would otherwise not want to see
-            if submission.over_18 == True and ctx.channel.is_nsfw() == False:
-                return await ctx.send('This channel must be marked as NSFW to view NSFW subreddits!')
-
-            #Formatting score & comment count
-            upvotes = "{:,}".format(submission.score)
-            commentNum = "{:,}".format(submission.num_comments)
-            
-            #Creates embed. Pulls all of the post info, from title to author, score, and comment amount
-            postEmbed = discord.Embed(title=submission.title, url=f'https://reddit.com{submission.permalink}', color=discord.Color.red(), description=submission.selftext)
-            postEmbed.set_author(name=f'{upvotes} upvotes, {commentNum} comments.')
-            postEmbed.set_footer(text=f'Posted by {submission.author}')
-            #Uses 'Text' variable to decide if to attach image to embed
-            if Text == False:
-                postEmbed.set_image(url=submission.url)
-            #Sends embed
-            return await ctx.send(embed=postEmbed)
-
     @commands.command()
     @commands.is_owner()
     async def redditmsg(self, ctx, user, *, message):
