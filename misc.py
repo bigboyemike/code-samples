@@ -209,7 +209,7 @@ class misc(commands.Cog):
         else: 
             return await ctx.send("That user is not listening to Spotify!")
 
-    @commands.command()
+    @commands.command(aliases=['uwu','owoify','uwuify'])
     async def owo(self, ctx, *, message):
         """Owoify a message"""
         owoMessageA = message.replace("r", "w")

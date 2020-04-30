@@ -11,11 +11,13 @@ class info(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=['ui','user'])
-    async def userinfo(self, ctx, *, user: typing.Union[discord.Member, discord.User, int]):
+    async def userinfo(self, ctx, *, user: typing.Union[discord.Member, discord.User, int, None]):
         """Get info about a user"""
         user = user or ctx.author
         if isinstance(user, int):
             user = await self.bot.fetch_user(user)
+        if user == None:
+            user = ctx.author if not user else user
         
         if user == self.bot.user:
             botStatus = 'Yes'
