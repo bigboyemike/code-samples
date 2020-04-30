@@ -45,7 +45,7 @@ class mod(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, member: discord.Member, *, reason: None):
+    async def kick(self, ctx, member: discord.Member, *, reason: "No reason specified."):
         """Kicks a specified user"""
         try:
             server = ctx.author.guild.name
@@ -58,7 +58,7 @@ class mod(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, member: discord.Member, *, reason: None):
+    async def ban(self, ctx, member: discord.Member, *, reason: "No reason specified."):
         """Bans a specified user"""
         try:
             server = ctx.author.guild.name
