@@ -50,7 +50,8 @@ class info(commands.Cog):
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.avatar_url)
             embed.add_field(name='**ID:**', value=user.id, inline=True)
             embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
-            embed.add_field(name='**User\'s roles:**', value=" ".join([role.mention for role in roles if role.id != ctx.guild.id]), inline=False) 
+            if inGuild == True:
+                embed.add_field(name='**User\'s roles:**', value=" ".join([role.mention for role in roles if role.id != ctx.guild.id]), inline=False) 
             embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
             if inGuild == True:
@@ -64,7 +65,8 @@ class info(commands.Cog):
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.avatar_url)
             embed.add_field(name='**ID:**', value=user.id, inline=True)
             embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
-            embed.add_field(name='**User\'s roles:**', value='User has no roles', inline=False) 
+            if inGuild == True:
+                embed.add_field(name='**User\'s roles:**', value='User has no roles', inline=False) 
             embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
             if inGuild == True:
