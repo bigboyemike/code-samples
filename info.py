@@ -55,11 +55,15 @@ class info(commands.Cog):
             for member in ctx.guild.members:
                 if member.name == user.name:
                     embed.add_field(name='**User\'s roles:**', value=" ".join([role.mention for role in roles if role.id != ctx.guild.id]), inline=False) 
+                else:
+                    continue
             embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
             for member in ctx.guild.members:
                 if member.name == user.name:
                     embed.add_field(name='**Joined server:**', value=jt, inline=True)
+                else:
+                    continue
             embed.timestamp = ctx.message.created_at
             await ctx.send(embed=embed)
         except discord.errors.HTTPException:
@@ -71,12 +75,16 @@ class info(commands.Cog):
             embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
             for member in ctx.guild.members:
                 if member.name == user.name:
-                    embed.add_field(name='**User\'s roles:**', value='User has no roles', inline=False) 
+                    embed.add_field(name='**User\'s roles:**', value='User has no roles', inline=False)
+                else:
+                    continue 
             embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
             for member in ctx.guild.members:
                 if member.name == user.name:
                     embed.add_field(name='**Joined server:**', value=jt, inline=True)
+                else:
+                    continue
             embed.timestamp = ctx.message.created_at
             await ctx.send(embed=embed)
         except:
