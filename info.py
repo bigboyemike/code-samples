@@ -33,9 +33,10 @@ class info(commands.Cog):
                 inGuild = True
 
         roles = []
-        if inGuild == True:
-            for role in user.roles:
-                roles.append(role)
+        for member in ctx.guild.members:
+            if member.name == user.name:
+                for role in user.roles:
+                    roles.append(role)
 
         statusE = {
             "online": "<:online:686059993006342217>",
