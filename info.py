@@ -26,7 +26,7 @@ class info(commands.Cog):
 
         createdTime = user.created_at
         ct = createdTime.strftime("%b %d, %Y")
-        for member in ctx.author.members:
+        for member in ctx.guild.members:
             if member.name == user.name:
                 joinedTime = user.joined_at
                 jt = joinedTime.strftime("%b %d, %Y")
