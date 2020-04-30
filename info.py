@@ -26,8 +26,11 @@ class info(commands.Cog):
 
         createdTime = user.created_at
         ct = createdTime.strftime("%b %d, %Y")
-        joinedTime = user.joined_at
-        jt = joinedTime.strftime("%b %d, %Y")
+        for member in ctx.author.members:
+            if member.name == user.name:
+                joinedTime = user.joined_at
+                jt = joinedTime.strftime("%b %d, %Y")
+                inGuild = True
 
         roles = []
         for role in user.roles:
@@ -50,7 +53,8 @@ class info(commands.Cog):
             embed.add_field(name='**User\'s roles:**', value=" ".join([role.mention for role in roles if role.id != ctx.guild.id]), inline=False) 
             embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
-            embed.add_field(name='**Joined server:**', value=jt, inline=True)
+            if inGuild == True:
+                embed.add_field(name='**Joined server:**', value=jt, inline=True)
             embed.timestamp = ctx.message.created_at
             await ctx.send(embed=embed)
         except discord.errors.HTTPException:
@@ -63,7 +67,8 @@ class info(commands.Cog):
             embed.add_field(name='**User\'s roles:**', value='User has no roles', inline=False) 
             embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
             embed.add_field(name='**Account created:**', value=ct, inline=True)
-            embed.add_field(name='**Joined server:**', value=jt, inline=True)
+            if inGuild == True:
+                embed.add_field(name='**Joined server:**', value=jt, inline=True)
             embed.timestamp = ctx.message.created_at
             await ctx.send(embed=embed)
         except:
