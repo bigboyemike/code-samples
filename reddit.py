@@ -3,6 +3,7 @@ from discord.ext import commands
 from datetime import date
 import datetime
 import praw
+import os
 
 async def postInfoGrab(ctx, submission):
     #If the post is text, makes variable 'Text' true to then decide if embed should have an image (if self text there is no image, so it stops it from including an image in the embed)
@@ -32,11 +33,11 @@ class reddit(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.reddit = praw.Reddit(client_id='AEvZJBsDYQtxyg',
-                        client_secret='fijOdLQH2JpC8y8gxPEt8r5TVoQ',
-                        user_agent='Mikey Bot by u/TheHiMaster. Integrated with Mikey#1211 on Discord.',
-                        username='Mikey_Bot',
-                        password='260426Mf')
+        self.reddit = praw.Reddit(client_id=os.environ['Rclient_user'],
+                        client_secret=os.environ['Rclient_secret'],
+                        user_agent=os.environ['Ruser_agent'],
+                        username=os.environ['Rusername'],
+                        password=os.environ['Rpassword'])
         
     @commands.group()
     async def post(self, ctx):
