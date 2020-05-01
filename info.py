@@ -16,6 +16,19 @@ class info(commands.Cog):
         user = user or ctx.author
         if isinstance(user, int):
             user = await self.bot.fetch_user(user)
+            if user == self.bot.user:
+                botStatus = 'Yes'
+            else:
+                botStatus = 'No'
+            embed = discord.Embed(color=user.color, title=f'{user.display_name}\'s Info', footer=f'Requested by {ctx.author}')
+            embed.set_author(name=f'{user}', icon_url=user.avatar_url)
+            embed.set_thumbnail(url=user.avatar_url)
+            embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.avatar_url)
+            embed.add_field(name='**ID:**', value=user.id, inline=True)
+            embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
+            embed.timestamp = ctx.message.created_at
+            return await ctx.send(embed=embed)
+
         if user == None:
             user = ctx.author if not user else user
         
@@ -45,28 +58,28 @@ class info(commands.Cog):
             "offline": "<:offline:686060058118717453>"
         }
 
-        #try:
-        embed = discord.Embed(color=user.color, title=f'{user.display_name}\'s Info', footer=f'Requested by {ctx.author}')
-        embed.set_author(name=f'{user}', icon_url=user.avatar_url)
-        embed.set_thumbnail(url=user.avatar_url)
-        embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.avatar_url)
-        embed.add_field(name='**ID:**', value=user.id, inline=True)
-        embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
-        for member in ctx.guild.members:
-            if member.name == user.name:
-                embed.add_field(name='**User\'s roles:**', value=" ".join([role.mention for role in roles if role.id != ctx.guild.id]), inline=False) 
-            else:
-                continue
-        embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
-        embed.add_field(name='**Account created:**', value=ct, inline=True)
-        for member in ctx.guild.members:
-            if member.name == user.name:
-                embed.add_field(name='**Joined server:**', value=jt, inline=True)
-            else:
-                continue
-        embed.timestamp = ctx.message.created_at
-        await ctx.send(embed=embed)
-        """except discord.errors.HTTPException:
+        try:
+            embed = discord.Embed(color=user.color, title=f'{user.display_name}\'s Info', footer=f'Requested by {ctx.author}')
+            embed.set_author(name=f'{user}', icon_url=user.avatar_url)
+            embed.set_thumbnail(url=user.avatar_url)
+            embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.avatar_url)
+            embed.add_field(name='**ID:**', value=user.id, inline=True)
+            embed.add_field(name='**Is this user a bot?**', value=botStatus, inline=True)
+            for member in ctx.guild.members:
+                if member.name == user.name:
+                    embed.add_field(name='**User\'s roles:**', value=" ".join([role.mention for role in roles if role.id != ctx.guild.id]), inline=False) 
+                else:
+                    continue
+            embed.add_field(name='**User\'s Status:**', value=statusE[str(user.web_status)] + 'Web Status' + '\n' + statusE[str(user.mobile_status)] + 'Mobile Status' + '\n' + statusE[str(user.desktop_status)] + 'Desktop Status', inline=False)
+            embed.add_field(name='**Account created:**', value=ct, inline=True)
+            for member in ctx.guild.members:
+                if member.name == user.name:
+                    embed.add_field(name='**Joined server:**', value=jt, inline=True)
+                else:
+                    continue
+            embed.timestamp = ctx.message.created_at
+            await ctx.send(embed=embed)
+        except discord.errors.HTTPException:
             embed = discord.Embed(color=user.color, title=f'{user.display_name}\'s Info', footer=f'Requested by {ctx.author}')
             embed.set_author(name=f'{user}', icon_url=user.avatar_url)
             embed.set_thumbnail(url=user.avatar_url)
@@ -88,7 +101,7 @@ class info(commands.Cog):
             embed.timestamp = ctx.message.created_at
             await ctx.send(embed=embed)
         except:
-            await ctx.send('There was an error fetching user\'s info')"""
+            await ctx.send('There was an error fetching user\'s info')
 
     @commands.command(aliases=['gi','guild'])
     async def guildinfo(self, ctx):
