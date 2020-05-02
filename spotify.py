@@ -10,11 +10,15 @@ class spotify(commands.Cog):
 
     @commands.command()
     async def connect(self, ctx):
-        """Gets the bot to join a voice channel"""
+        """Gets the bot to join your voice channel"""
         voicechannel = ctx.author.voice.channel
         await voicechannel.connect()
-        time.sleep(7)
+    
+    @commands.command()
+    async def disconnect(self,ctx):    
+        """Makes the bot leave the voice channel"""
         await ctx.voice_client.disconnect()
+
 
 def setup(bot):
     bot.add_cog(spotify(bot))
