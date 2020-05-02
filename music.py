@@ -38,10 +38,10 @@ class music(commands.Cog):
         """Play a YouTube song"""
         voicechannel = ctx.author.voice.channel
         voice = get(self.bot.voice_clients, guild=ctx.guild)
-        player = await voice.create_ytdl_player(url)
-        player.start
+        """player = await voice.create_ytdl_player(url)
+        player.start"""
         
-        """songPresent = os.path.isfile("song.mp3")
+        songPresent = os.path.isfile("song.mp3")
         try:
             if songPresent:
                 os.remove("song.mp3")
@@ -71,7 +71,7 @@ class music(commands.Cog):
         voice.source.volume
 
         newName = name.rsplit("-", 2)
-        await ctx.send(f"Now playing {newName}")"""
+        await ctx.send(f"Now playing {newName}")
 
 
 
