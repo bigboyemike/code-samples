@@ -9,13 +9,12 @@ class spotify(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def connect(self, ctx, voicechannel: discord.VoiceChannel = None):
+    async def connect(self, ctx):
         """Gets the bot to join a voice channel"""
-        if voicechannel == None:
-            voicechannel = ctx.author.VoiceState.channel if not voicechannel else voicechannel
+        voicechannel = ctx.author.voice.channel
         await voicechannel.connect()
         time.sleep(7)
-        await ctx.VoiceClient.disconnect()
+        await ctx.voice_client.disconnect()
 
 def setup(bot):
     bot.add_cog(spotify(bot))
