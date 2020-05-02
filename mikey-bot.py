@@ -19,6 +19,7 @@ async def create_db_pool():
 
 bot.remove_command('help')
 me = re.compile(r'(bigboye)?[мm][i*¡!1Lìíîïīįı][ckKķ](h|[3e*ēėęêëèéěĕƏ])([aæãåāàáâä][3e*ēėęêëèéěĕƏ][i*¡!1Lìíîïīįı])?', re.I)
+sarah = re.compile(r'(fr(en|om)ch|[sc][aæãåāàáâä]r[aæãåāàáâä]+(h|ph|f))', re.I)
 
 
 
@@ -60,7 +61,7 @@ async def on_message(message):
         if message.author.bot:
             return
         await message.channel.send("<:CST:672605143992369165>")
-    if "french" in message.content or "fromch" in message.content or "sarah" in message.content:    
+    if sarah.search(message.content):  
         french = bot.get_user(420788676516249601)
         server = message.author.guild.name
         Mchannel = message.channel.name
