@@ -63,7 +63,7 @@ class music(commands.Cog):
                 name = file
                 os.rename(file, "song.mp3")
         
-        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: await ctx.send("Song has finished playing"))
+        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print("song finished playing"))
         voice.source = discord.PCMVolumeTransformer(voice.source)
         voice.source.volume
 
