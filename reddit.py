@@ -33,11 +33,11 @@ class reddit(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.reddit = praw.Reddit(client_id=os.environ.get("Rclient_user"),
-                        client_secret=os.environ.get("Rclient_secret"),
-                        user_agent=os.environ.get("Ruser_agent"),
-                        username=os.environ.get("Rusername"),
-                        password=os.environ.get("Rpassword"))
+        self.reddit = praw.Reddit(client_id=os.environ['Rclient_id'],
+                        client_secret=os.environ['Rclient_secret'],
+                        user_agent=os.environ['Ruser_agent'],
+                        username=os.environ['Rusername'],
+                        password=os.environ['Rpassword'])
         
     @commands.group()
     async def post(self, ctx):
