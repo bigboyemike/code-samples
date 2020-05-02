@@ -60,13 +60,25 @@ async def on_message(message):
         if message.author.bot:
             return
         await message.channel.send("<:CST:672605143992369165>")
+    if "french" in message.content or "fromch" in message.content or "sarah" in message.content:    
+        french = bot.get_user(420788676516249601)
+        server = message.author.guild.name
+        Mchannel = message.channel.name
+        embedM = discord.Embed(title='Name Mention', description=f'**Message content:** {message.content}', color=discord.Color.red())
+        embedM.add_field(name='Server:', value=server, inline=False)
+        embedM.add_field(name='Channel:', value=Mchannel, inline=False)
+        #embedM.add_field(name='** **', value='** **')
+        embedM.add_field(name='User:', value=message.author)
+        embedM.add_field(name='Jump link:', value=message.jump_url)
+        embedM.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/ac647b7ca83c05723b0fbc2b15637329.webp')
+        await french.send(embed=embedM)
     #if message.author.id == 420788676516249601:
         #return
     
 
     await bot.process_commands(message)
 
-cogs = ('misc', 'help', 'mod', 'spv2', 'info', 'reddit','spotify')
+cogs = ('misc', 'help', 'mod', 'spv2', 'info', 'reddit','music')
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, cog=None):
