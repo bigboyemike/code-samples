@@ -19,7 +19,7 @@ async def create_db_pool():
 
 bot.remove_command('help')
 me = re.compile(r'(bigboye)?[мm][i*¡!1Lìíîïīįı][ckKķ](h|[3e*ēėęêëèéěĕƏ])([aæãåāàáâä4][3e*ēėęêëèéěĕƏ][i*¡!1Lìíîïīįı])?', re.I)
-sarah = re.compile(r'((h|ph|f)r([3e*ēėęêëèéěĕƏ]n|[o0][мm])ch|[sc][aæãåāàáâä4]r[aæãåāàáâä4]+(h|ph|f))', re.I)
+sarah = re.compile(r'((h|ph|f)r([3e*ēėęêëèéěĕƏ]n|[o0][мm])c(h|ph|f)|[sc][aæãåāàáâä4]r[aæãåāàáâä4]+(h|ph|f))', re.I)
 
 
 
