@@ -18,8 +18,8 @@ async def create_db_pool():
     """bot.pg_con = await asyncpg.create_pool(database="Mikey Bot", user="postgres", password="260426Mf")"""
 
 bot.remove_command('help')
-me = re.compile(r'(bigboye)?[мm][i*¡!1Lìíîïīįı][ckKķ](h|[3e*ēėęêëèéěĕƏ])([aæãåāàáâä][3e*ēėęêëèéěĕƏ][i*¡!1Lìíîïīįı])?', re.I)
-sarah = re.compile(r'(fr(en|om)ch|[sc][aæãåāàáâä]r[aæãåāàáâä]+(h|ph|f))', re.I)
+me = re.compile(r'(bigboye)?[мm][i*¡!1Lìíîïīįı][ckKķ](h|[3e*ēėęêëèéěĕƏ])([aæãåāàáâä4][3e*ēėęêëèéěĕƏ][i*¡!1Lìíîïīįı])?', re.I)
+sarah = re.compile(r'(fr(en|om)ch|[sc][aæãåāàáâä4]r[aæãåāàáâä4]+(h|ph|f))', re.I)
 
 
 
