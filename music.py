@@ -4,6 +4,7 @@ from discord.utils import get
 import spotipy
 import time
 import youtube_dl
+import os
 
 class music(commands.Cog):
     
@@ -19,7 +20,7 @@ class music(commands.Cog):
             await voice.move_to(voicechannel)
         else:
             voice = await voicechannel.connect()
-        await ctx.send(f"Now connected to {voicechannel}")
+        await ctx.send(f"Connected to {voicechannel}")
     
     @commands.command()
     async def disconnect(self,ctx):    
@@ -32,17 +33,42 @@ class music(commands.Cog):
         else:
             return await ctx.send("Bot isn't in a voice channel!")
 
-    """@commands.command()
-    async def play(self, ctx, url):
-        Play a YouTube song
-        guild = ctx.message.guild
-        voice_client = guild.voice_client
-        if voice_client == None:
-            voicechannel = ctx.author.voice.channel
-            await voicechannel.connect()
-        player = await voice_client.create_ytdl(url)
-        players[guild.id] = player
-        player.start"""
+    @commands.command()
+    async def play(self, ctx, url: str):
+        """Play a YouTube song"""
+        voicechannel = ctx.author.voice.channel
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
+        songPresent = os.path.isfile("song.mp3")
+        try:
+            if songPresent:
+                os.remove("song.mp3")
+        except PermissionError:
+            return await ctx.send("have some patience dumbass there's a song already playing")
+        
+        await ctx.send("Preparing song...")
+        ydl_opts = {
+            'format':'bestaudio/best',
+            'postprocessors': [{
+                'key':'FFmegExtractAudio',
+                'preferredcodeec':'mp3',
+                'preferredquality':'192',
+            }],
+        }
+
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+
+        for file in os.listdir("./"):
+            if file.endswith(".mp3"):
+                name = file
+                os.rename(file, "song.mp3")
+        
+        voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: await ctx.send("Song has finished playing"))
+        voice.source = discord.PCMVolumeTransformer(voice.source)
+        voice.source.volume
+
+        newName = name.rsplit("-", 2)
+        await ctx.send(f"Now playing {newName}")
 
 
 
