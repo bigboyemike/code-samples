@@ -15,7 +15,7 @@ class spotify(commands.Cog):
             voicechannel = ctx.author.VoiceState.channel if not voicechannel else voicechannel
         await voicechannel.connect()
         time.sleep(7)
-        await voicechannel.disconnect()
+        await ctx.VoiceClient.disconnect()
 
 def setup(bot):
     bot.add_cog(spotify(bot))
