@@ -79,7 +79,7 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-cogs = ('misc', 'help', 'mod', 'spv2', 'info','music')
+cogs = ('misc', 'help', 'mod', 'spv2', 'info','reddit', 'music')
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, cog=None):
@@ -192,4 +192,4 @@ async def kill(ctx):
 
 bot.loop.run_until_complete(create_db_pool())
 #token = os.getenv("TOKEN")
-bot.run('NjU1NjM2MjIwNjEyOTY4NDU5.Xpu6eg.-l2KhwjqOgN3k6st53SyJYzzwKY')
+bot.run(os.environ['token'])
