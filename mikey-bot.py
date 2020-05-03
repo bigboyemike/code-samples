@@ -31,13 +31,10 @@ async def on_ready():
     print('Ready for testing!')
     print(f'Ping {round(bot.latency * 1000, 3)}ms')
 
-"""
-@bot.event
-async def on_message(message):
-    if message.content.startswith('fake news'):
-        await message.channel.send('not fake news')
-    await bot.process_commands(message)
-    """
+
+cogs = ('misc', 'help', 'mod', 'spv2', 'info', 'reddit')
+for cog in cogs:
+    bot.load_extension(cog)
 
 Cooldown = set
 
@@ -79,7 +76,6 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-cogs = ('misc', 'help', 'mod', 'spv2', 'info','reddit', 'music')
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, cog=None):
@@ -153,8 +149,6 @@ async def load(ctx, cog=None):
     await ctx.message.clear_reactions()
     await ctx.send(f'Successfully loaded {cog1}')
 
-for cog in cogs:
-    bot.load_extension(cog)
 bot.load_extension('jishaku')
 
 @bot.command()
