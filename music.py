@@ -41,7 +41,24 @@ class music(commands.Cog):
         """player = await voice.create_ytdl_player(url)
         player.start"""
         
-        songPresent = os.path.isfile("song.mp3")
+        ydl_opts = {
+                    'format': 'bestaudio/best',
+                    'postprocessors': [{
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'mp3',
+                        'preferredquality': '192',
+                    }],
+        }
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        for file in os.listdir("./"):
+            if file.endswith(".mp3"):
+                voice.play(discord.FFmpegAudio(file), args=file, executable='ffmpeg', after=lambda e: print("song finished playing"))
+            
+        
+
+
+        """songPresent = os.path.isfile("song.mp3")
         try:
             if songPresent:
                 os.remove("song.mp3")
@@ -71,7 +88,7 @@ class music(commands.Cog):
         voice.source.volume
 
         newName = name.rsplit("-", 2)
-        await ctx.send(f"Now playing {newName}")
+        await ctx.send(f"Now playing {newName}")"""
 
 
 
