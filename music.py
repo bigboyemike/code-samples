@@ -13,7 +13,7 @@ class music(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        self.bot.music = lavalink.Client(self.bot.user.id)
+        #self.bot.music = lavalink.Client(self.bot.user.id)
         self.bot.music.add_node('localhost', 7000, 'testing', 'na', 'music-node')
         self.bot.add_listener(self.bot.music.voice_update_handler, 'on_socket_response')
         self.bot.music.add_event_hook(self.track_hook)
