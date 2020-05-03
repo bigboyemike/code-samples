@@ -50,12 +50,12 @@ class music(commands.Cog):
         
         await ctx.send("Preparing song...")
         ydl_opts = {
-            'format':'bestaudio/best',
-            'postprocessors': [{
-                'key':'FFmegExtractAudio',
-                'preferredcodeec':'mp3',
-                'preferredquality':'192',
-            }],
+                    'format': 'bestaudio/best',
+                    'postprocessors': [{
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'mp3',
+                        'preferredquality': '192',
+                    }],
         }
 
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
