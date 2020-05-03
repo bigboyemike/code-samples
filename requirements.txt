@@ -8,3 +8,4 @@ jishaku
 spotipy
 youtube_dl
 discord.py[voice]
+lavalink
