@@ -15,6 +15,7 @@ import psutil
 from discord import Spotify
 from datetime import timedelta
 from string import Template
+import re
 client = discord.Client()
 
 def bar_make(value: int, gap: int, fill_char: str = '⚪', empty_char: str = '─', point_mode: bool = True, length: int = 25):
@@ -98,7 +99,10 @@ class misc(commands.Cog):
         if "@here" in message:
             await ctx.send('no')
             return
-        await ctx.message.delete()
+        invite = re.compile(r'(?:https?: //)?discord(?:app\.com / invite |\.gg) / ?[a - zA - Z0 - 9] + / ?', re.I)
+        if invite.search(message):
+            return await ctx.send('I refuse to repeat invite links')
+        #await ctx.message.delete()
         await ctx.send(message)
 
     @commands.command(aliases=['av','pfp', 'profilepic', 'profilepicture'])
