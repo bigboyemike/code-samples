@@ -33,19 +33,6 @@ async def get_prefix(bot, message):
     prefix = prefixes[0][0]
     return commands.when_mentioned_or(prefix)(bot, message)
 
-async def get_prefix(bot, message):
-    if not message.guild:
-        return commands.when_mentioned_or(";")(bot, message)
-
-    prefixes = await bot.pg_con.fetch("") # SELECT, UPDATE THIS!!!!! 
-
-    if not prefixes:
-        await bot.pg_con.execute("") # INSERT, UPDATE THIS!!!!
-
-    prefixes = await bot.pg_con.fetch("") # SELECT, UPDATE THIS!!!
-    prefix = prefixes[0][0]
-    return commands.when_mentioned_or(prefix)(bot, message)
-
 bot = commands.Bot(command_prefix=get_prefix, owner_id=159459536762175488, case_insensitive=True)
 
 bot.remove_command('help')
