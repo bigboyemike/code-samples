@@ -145,8 +145,6 @@ class info(commands.Cog):
         if not guild:
             await self.bot.pg_con.execute("INSERT INTO guild_settings (guild_id, prefix) VALUES ($1, ';m')", guild_id)
 
-        guild = await self.bot.pg_con.fetchrow("SELECT * FROM guild_settings WHERE guild_id = $1", guild_id)
-
         await self.bot.pg_con.execute("UPDATE guild_settings SET prefix = $1 WHERE guild_id = $2", prefix, guild_id)
         await ctx.guild.get_member(self.bot.user.id).edit(nick=f'Mikey [{prefix}]')
         await ctx.message.add_reaction('<:check:688848512103743511>')
