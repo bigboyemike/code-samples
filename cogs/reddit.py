@@ -119,7 +119,7 @@ class reddit(commands.Cog):
         user_id = str(ctx.author.id)
         if ctx.invoked_subcommand is None:
             if redditor is 'set':
-                continue
+                pass
             if redditor is None:
                 redditor = await self.bot.pg_con.fetch("SELECT reddit_name FROM user_info WHERE user_id = $1", user_id)
                 if not redditor:
