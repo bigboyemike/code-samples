@@ -24,10 +24,10 @@ async def get_prefix(bot, message):
     if not message.guild:
         return commands.when_mentioned_or("m;")(bot, message)
 
-    prefixes = await bot.pg_con.fetch("SELECT * FROM guild_info WHERE guild = $1", str(message.guild.id))
+    prefixes = await bot.pg_con.fetch("SELECT * FROM guild_settings WHERE guild = $1", str(message.guild.id))
 
     if not prefixes:
-        await bot.pg_con.execute("INSERT INTO guild_info (guild, prefix) VALUES ($1, 'm;')", str(message.guild.id))
+        await bot.pg_con.execute("INSERT INTO guild_settings (guild, prefix) VALUES ($1, 'm;')", str(message.guild.id))
 
     prefixes = await bot.pg_con.fetch("SELECT prefix, guild_id FROM guild_settings WHERE guild = $1", str(message.guild.id))
     prefix = prefixes[0][0]
