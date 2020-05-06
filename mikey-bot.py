@@ -105,8 +105,6 @@ async def on_message(message):
         await french.send(embed=embedM)
     #if message.author.id == 420788676516249601:
         #return
-    
-
     await bot.process_commands(message)
 
 @bot.command()
