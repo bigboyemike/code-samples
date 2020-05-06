@@ -43,8 +43,14 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name=f"your cute ass 👀"))
     #await discord.allowed_mentions(everyone=False)
     bot.launch_time = datetime.utcnow()
-    print('Ready for testing!')
-    print(f'Ping {round(bot.latency * 1000, 3)}ms')
+    print('Logged in as')
+    print(f'Bot-Name: {bot.user}')
+    print(f'Bot-ID: {bot.user.id}')
+    print(f'Discord.py Version: {discord.__version__}')
+    bot.AppInfo = await bot.application_info()
+    print(f'Owner: {bot.AppInfo.owner}')
+    print(f'Latency: {round(bot.latency * 1000, 3)}ms')
+    print('------')
 
 Cooldown = set
 
