@@ -134,6 +134,21 @@ class info(commands.Cog):
         guildEmbed.add_field(name='**General info:**', value=f'**Owner:** {ctx.guild.owner.mention}\n**Created on:** {ct}\n**Member count:** {ctx.guild.member_count}\n**Emoji count:** {emojiNum}/{ctx.guild.emoji_limit}\n**Total channels:** {channelNum} ({textChannelNum} text {sOrNotT}, {voiceChannelNum} voice {sOrNotV})')
         await ctx.send(embed=guildEmbed)
 
+    @commands.command(aliases=['p'])
+    async def prefix(self, ctx, *, new_prefix):
+        """Change the bot's prefix in a server"""
+        guild_id = str(ctx.guild.id)
+
+        guild = await self.bot.pg_con.fetch("SELECT * FROM guild_info WHERE guild = $1", guild_id)
+
+        if not guild:
+            await self.bot.pg_con.execute("INSERT INTO guild_info (guild, prefix) VALUES ($1, ';m')", guild_id)
+
+        guild = await self.bot.pg_con.fetchrow("SELECT * FROM guild_info WHERE guild = $1", guild_id)
+
+        await self.bot.pg_con.execute("UPDATE guild_info SET prefix = $1 WHERE guild = $2", new_prefix, guild_id)
+        await ctx.message.add_reaction('<:check:688848512103743511>')
+
         
 
         

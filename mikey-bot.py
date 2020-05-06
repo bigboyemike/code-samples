@@ -2,7 +2,7 @@ import os
 import json
 import discord
 from discord.ext import commands
-#import asyncpg
+import asyncpg
 from datetime import datetime
 import subprocess
 import sys
@@ -15,7 +15,7 @@ client = discord.Client()
 bot = commands.Bot(command_prefix=';', owner_id=159459536762175488, case_insensitive=True)
 
 async def create_db_pool():
-    """bot.pg_con = await asyncpg.create_pool(database="Mikey Bot", user="postgres", password="260426Mf")"""
+    bot.pg_con = await asyncpg.create_pool(database="mikey", user="postgres", password="260426Mf")
 
 bot.remove_command('help')
 me = re.compile(r'(bigboye)?[мm][i*¡!1Lìíîïīįı][ckKķ](h|[3e*ēėęêëèéěĕƏ])([aæãåāàáâä4][3e*ēėęêëèéěĕƏ][i*¡!1Lìíîïīįı])?', re.I)
