@@ -118,11 +118,13 @@ class reddit(commands.Cog):
         """Look at a reddit account's info"""
         user_id = str(ctx.author.id)
         if ctx.invoked_subcommand is None:
+            if redditor is 'set':
+                continue
             if redditor is None:
                 redditor = await self.bot.pg_con.fetch("SELECT reddit_name FROM user_info WHERE user_id = $1", user_id)
                 if not redditor:
                     return await ctx.send(
-                        'No username specified. To store your reddit username use `redditinfo set <username>')
+                        'No username specified. To store your reddit username use `redditinfo set <username>`')
 
             # Simplifies the redditor, so it's easier to later use for info.
             user = self.reddit.redditor(redditor)
