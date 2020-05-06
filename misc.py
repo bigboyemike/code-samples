@@ -82,6 +82,9 @@ class misc(commands.Cog):
             if "@here" in message:
                 await ctx.send('no')
                 return
+            invite = re.compile(r'(?:https?: //)?discord(?:app\.com / invite |\.gg) / ?[a - zA - Z0 - 9] + / ?', re.I)
+            if invite.search(message):
+                return await ctx.send('I refuse to repeat invite links')
             await channel.send(message)
             await ctx.message.add_reaction('<:check:688848512103743511>')
             time.sleep(2)
@@ -126,6 +129,9 @@ class misc(commands.Cog):
         if "@here" in message:
             await ctx.send('no')
             return
+        invite = re.compile(r'(?:https?: //)?discord(?:app\.com / invite |\.gg) / ?[a - zA - Z0 - 9] + / ?', re.I)
+        if invite.search(message):
+            return await ctx.send('I refuse to repeat invite links')
         try:
             await ctx.send(message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ' + message + ' ')
         except:
@@ -227,7 +233,7 @@ class misc(commands.Cog):
     async def invite(self, ctx):
         """Sends the bot's invite"""
         inviteEmbed = discord.Embed(title='Link to invite bot', url='https://bit.ly/Mikey-Bot', color=discord.Color.red())
-        inviteEmbed.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/ac647b7ca83c05723b0fbc2b15637329.webp')
+        inviteEmbed.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/7d07871355cfadeb850fc10f63520e7d.webp')
         await ctx.send(embed=inviteEmbed)
     
     @commands.Cog.listener()

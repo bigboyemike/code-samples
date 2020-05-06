@@ -52,7 +52,7 @@ async def on_message(message):
         #embedM.add_field(name='** **', value='** **')
         embedM.add_field(name='User:', value=message.author)
         embedM.add_field(name='Jump link:', value=message.jump_url)
-        embedM.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/ac647b7ca83c05723b0fbc2b15637329.webp')
+        embedM.set_footer(text='Mikey#1211', icon_url='https://cdn.discordapp.com/avatars/655636220612968459/7d07871355cfadeb850fc10f63520e7d.webp')
         await mike.send(embed=embedM)
     if "<:CET:672963638306537483>" in message.content:
         if message.author.bot:
