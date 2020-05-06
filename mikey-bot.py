@@ -33,11 +33,6 @@ async def on_ready():
     print('Ready for testing!')
     print(f'Ping {round(bot.latency * 1000, 3)}ms')
 
-
-cogs = ('misc', 'help', 'mod', 'spv2', 'info', 'reddit')
-for cog in cogs:
-    bot.load_extension(cog)
-
 Cooldown = set
 
 @bot.event
@@ -77,8 +72,6 @@ async def on_message(message):
     
 
     await bot.process_commands(message)
-
-bot.load_extension('jishaku')
 
 @bot.command()
 async def uptime(ctx):
@@ -161,7 +154,8 @@ async def load(ctx, cog=None):
     await ctx.message.clear_reactions()
     await ctx.send(f'Successfully loaded {cog1}')
 
-
+    
+bot.load_extension('jishaku')
 for cog in os.listdir(r"./cogs"):
     if cog.endswith(".py") and not cog.startswith("_"):
         try:
