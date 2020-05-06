@@ -46,12 +46,14 @@ async def get_prefix(bot, message):
     prefix = prefixes[0][0]
     return commands.when_mentioned_or(prefix)(bot, message)
 
+bot = commands.Bot(command_prefix=get_prefix, owner_id=159459536762175488, case_insensitive=True)
+
 bot.remove_command('help')
 me = re.compile(r'(bigboye)?[мm][i*¡!1Lìíîïīįı][ckKķ](h|[3e*ēėęêëèéěĕƏ])([aæãåāàáâä4][3e*ēėęêëèéěĕƏ][i*¡!1Lìíîïīįı])?', re.I)
 sarah = re.compile(r'((h|ph|f)r([3e*ēėęêëèéěĕƏ]n|[o0][мm])c(h|ph|f)|[sc][aæãåāàáâä4]r[aæãåāàáâä4]+(h|ph|f)|limes)', re.I)
 
 
-bot = commands.Bot(command_prefix=get_prefix, owner_id=159459536762175488, case_insensitive=True)
+
 
 @bot.event
 async def on_ready():
