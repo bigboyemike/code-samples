@@ -12,29 +12,47 @@ import importlib
 client = discord.Client()
 
 #load_dotenv()
-bot = commands.Bot(command_prefix=';', owner_id=159459536762175488, case_insensitive=True)
+
+
 
 async def create_db_pool():
-    bot.pg_con = await asyncpg.create_pool(database="mikey", user="postgres", password="260426Mf")
+    bot.pg_con = await asyncpg.create_pool(
+        dsn='postgres://vrjxgegi:BQp8ziGK_HhAv1F_t5il8ZpTEZEO9l0x@otto.db.elephantsql.com:5432/vrjxgegi',
+        min_size=1, max_size=5)
+
+async def get_prefix(bot, message):
+    if not message.guild:
+        return commands.when_mentioned_or("m;")(bot, message)
+
+    prefixes = await bot.pg_con.fetch("SELECT * FROM guild_info WHERE guild = $1", str(message.guild.id))
+
+    if not prefixes:
+        await bot.pg_con.execute("INSERT INTO guild_info (guild, prefix) VALUES ($1, 'm;')", str(message.guild.id))
+
+    prefixes = await bot.pg_con.fetch("SELECT prefix, guild_id FROM guild_settings WHERE guild = $1", str(message.guild.id))
+    prefix = prefixes[0][0]
+    return commands.when_mentioned_or(prefix)(bot, message)
 
 bot.remove_command('help')
 me = re.compile(r'(bigboye)?[мm][i*¡!1Lìíîïīįı][ckKķ](h|[3e*ēėęêëèéěĕƏ])([aæãåāàáâä4][3e*ēėęêëèéěĕƏ][i*¡!1Lìíîïīįı])?', re.I)
 sarah = re.compile(r'((h|ph|f)r([3e*ēėęêëèéěĕƏ]n|[o0][мm])c(h|ph|f)|[sc][aæãåāàáâä4]r[aæãåāàáâä4]+(h|ph|f)|limes)', re.I)
 
 
+bot = commands.Bot(command_prefix=get_prefix, owner_id=159459536762175488, case_insensitive=True)
 
 @bot.event
 async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name=f"your cute ass 👀"))
     #await discord.allowed_mentions(everyone=False)
     bot.launch_time = datetime.utcnow()
-    print('Ready for testing!')
-    print(f'Ping {round(bot.latency * 1000, 3)}ms')
-
-
-cogs = ('misc', 'help', 'mod', 'spv2', 'info', 'reddit')
-for cog in cogs:
-    bot.load_extension(cog)
+    print('Logged in as')
+    print(f'Bot-Name: {bot.user}')
+    print(f'Bot-ID: {bot.user.id}')
+    print(f'Discord.py Version: {discord.__version__}')
+    bot.AppInfo = await bot.application_info()
+    print(f'Owner: {bot.AppInfo.owner}')
+    print(f'Latency: {round(bot.latency * 1000, 3)}ms')
+    print('------')
 
 Cooldown = set
 
@@ -77,81 +95,6 @@ async def on_message(message):
     await bot.process_commands(message)
 
 @bot.command()
-@commands.is_owner()
-async def reload(ctx, cog=None):
-    """Reload cogs"""
-    if cog is None:
-        for cog in cogs:
-            await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.unload_extension(cog)
-            bot.load_extension(cog)
-            cog1 = 'all cogs'
-
-    else:
-        try:
-            await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.unload_extension(cog)
-            bot.load_extension(cog)
-            cog1 = f'cog `{cog}`'
-        except Exception as error:
-            print(f"{cog} can't be reloaded")
-            await ctx.message.clear_reactions()
-            raise error
-
-    await ctx.message.clear_reactions()
-    await ctx.send(f'Successfully reloaded {cog1}')
-
-
-@bot.command()
-@commands.is_owner()
-async def unload(ctx, cog=None):
-    """Unload cogs"""
-    if cog is None:
-        for cog in cogs:
-            await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.unload_extension(cog)
-            cog1 = 'all cogs'
-
-    else:
-        try:
-            await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.unload_extension(cog)
-            cog1 = f'cog `{cog}`'
-        except Exception as error:
-            print(f"{cog} can't be reloaded")
-            await ctx.message.clear_reactions()
-            raise error
-
-    await ctx.message.clear_reactions()
-    await ctx.send(f'Successfully unloaded {cog1}')
-
-
-@bot.command()
-@commands.is_owner()
-async def load(ctx, cog=None):
-    """Load cogs"""
-    if cog is None:
-        for cog in cogs:
-            await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.load_extension(cog)
-            cog1 = 'all cogs'
-
-    else:
-        try:
-            await ctx.message.add_reaction('<a:loading:688786923858296937>')
-            bot.load_extension(cog)
-            cog1 = f'cog `{cog}`'
-        except Exception as error:
-            await ctx.message.clear_reactions()
-            await ctx.send(f"{cog} can't be reloaded")
-            raise error
-
-    await ctx.message.clear_reactions()
-    await ctx.send(f'Successfully loaded {cog1}')
-
-bot.load_extension('jishaku')
-
-@bot.command()
 async def uptime(ctx):
     """Shows how long the bot has been online"""
     delta_uptime = datetime.utcnow() - bot.launch_time
@@ -181,9 +124,67 @@ async def kill(ctx):
     await client.logout()
     print('Bot now offline.')
 
-    
+@bot.command(hidden=True)
+@commands.is_owner()
+async def unload(ctx, cog=None):
+    cog = cog.lower()
+    cog = cog.capitalize()
+    if cog is None:
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py'):
+                await ctx.message.add_reaction('<:loading:667529420013305857>')
+                bot.unload_extension(f'cogs.{filename[:-3]}')
+                cog1 = 'all cogs'
 
+    else:
+        try:
+            await ctx.message.add_reaction('<:loading:667529420013305857>')
+            bot.unload_extension(f"cogs.{cog}")
+            cog1 = f'cog `{cog}`'
+        except Exception as error:
+            print(f"{cog} can't be unloaded")
+            await ctx.message.clear_reactions()
+            raise error
+
+    await ctx.message.clear_reactions()
+    await ctx.send(f"Successfully unloaded {cog1}")
+
+
+@bot.command(hidden=True)
+@commands.is_owner()
+async def load(ctx, cog=None):
+    cog = cog.lower()
+    cog = cog.capitalize()
+    if cog is None:
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py'):
+                await ctx.message.add_reaction('<:loading:667529420013305857>')
+                bot.load_extension(f'cogs.{filename[:-3]}')
+                cog1 = 'all cogs'
+
+    else:
+        try:
+            await ctx.message.add_reaction('<:loading:667529420013305857>')
+            bot.load_extension(f"cogs.{cog}")
+            cog1 = f'cog `{cog}`'
+        except Exception as error:
+            await ctx.message.clear_reactions()
+            await ctx.send(f"{cog} can't be loaded")
+            raise error
+
+    await ctx.message.clear_reactions()
+    await ctx.send(f'Successfully loaded {cog1}')
+
+    
+bot.load_extension('jishaku')
+for cog in os.listdir(r"./cogs"):
+    if cog.endswith(".py") and not cog.startswith("_"):
+        try:
+            cog = f"cogs.{cog.replace('.py', '')}"
+            bot.load_extension(cog)
+        except Exception as e:
+            print(f"{cog} can not be loaded")
+            raise e
 
 bot.loop.run_until_complete(create_db_pool())
-#token = os.getenv("TOKEN")
 bot.run(os.environ['token'])
