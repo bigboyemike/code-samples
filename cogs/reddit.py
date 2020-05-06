@@ -113,39 +113,35 @@ class reddit(commands.Cog):
             # If message sending fails, returns error message.
             return await ctx.send('There was an error sending the message.')
 
-    @commands.group(aliases=['karma', 'ri'])
+    @commands.group(aliases=['karma', 'ri'], invoke_without_commands=True)
     async def redditinfo(self, ctx, redditor=None):
         """Look at a reddit account's info"""
         user_id = str(ctx.author.id)
-        if ctx.invoked_subcommand is None:
-            if redditor is 'set':
-                pass
-            if redditor is None:
-                redditor = await self.bot.pg_con.fetch("SELECT reddit_name FROM user_info WHERE user_id = $1", user_id)
-                if not redditor:
-                    return await ctx.send(
-                        'No username specified. To store your reddit username use `redditinfo set <username>`')
+        if redditor is None:
+            redditor = await self.bot.pg_con.fetch("SELECT reddit_name FROM user_info WHERE user_id = $1", user_id)
+            if not redditor:
+                return await ctx.send('No username specified. To store your reddit username use `redditinfo set <username>`')
 
-            # Simplifies the redditor, so it's easier to later use for info.
-            user = self.reddit.redditor(redditor)
+        # Simplifies the redditor, so it's easier to later use for info.
+        user = self.reddit.redditor(redditor)
 
-            # Formats karma to include commas. Also calculates total karma.
-            totalKarma = "{:,}".format(user.comment_karma + user.link_karma)
-            linkKarma = "{:,}".format(user.link_karma)
-            commentKarma = "{:,}".format(user.comment_karma)
+        # Formats karma to include commas. Also calculates total karma.
+        totalKarma = "{:,}".format(user.comment_karma + user.link_karma)
+        linkKarma = "{:,}".format(user.link_karma)
+        commentKarma = "{:,}".format(user.comment_karma)
 
-            # Obtains account creation date and formats to be user-friendly
-            createdTime = datetime.datetime.utcfromtimestamp(user.created_utc)
-            ct = createdTime.strftime("%b %d, %Y")
+        # Obtains account creation date and formats to be user-friendly
+        createdTime = datetime.datetime.utcfromtimestamp(user.created_utc)
+        ct = createdTime.strftime("%b %d, %Y")
 
-            # Creates actual embed. Pulls name and icon, also uses the formatted karma amounts and formatted creation date.
-            redditInfoEmbed = discord.Embed(title=user.name, color=discord.Color.red())
-            redditInfoEmbed.set_thumbnail(url=user.icon_img)
-            redditInfoEmbed.add_field(name='<:karma:702194343724974141> **Karma**',
+        # Creates actual embed. Pulls name and icon, also uses the formatted karma amounts and formatted creation date.
+        redditInfoEmbed = discord.Embed(title=user.name, color=discord.Color.red())
+        redditInfoEmbed.set_thumbnail(url=user.icon_img)
+        redditInfoEmbed.add_field(name='<:karma:702194343724974141> **Karma**',
                                   value=f'**{totalKarma} total:** \n {linkKarma} post \n {commentKarma} comment')
-            redditInfoEmbed.set_footer(text=f'Account created on {ct}')
-            # Sends embed
-            await ctx.send(embed=redditInfoEmbed)
+        redditInfoEmbed.set_footer(text=f'Account created on {ct}')
+        # Sends embed
+        await ctx.send(embed=redditInfoEmbed)
 
     @redditinfo.command()
     async def set(self, ctx, username):
