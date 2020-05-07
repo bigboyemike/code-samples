@@ -6,6 +6,7 @@ import praw
 import os
 
 
+# Creates a function which compresses post grabbing/embed creating in post subcommands (different post sorts)
 async def postInfoGrab(ctx, submission):
     # If the post is text, makes variable 'Text' true to then decide if embed should have an image (if self text there is no image, so it stops it from including an image in the embed)
     if submission.is_self == True:
@@ -106,25 +107,29 @@ class reddit(commands.Cog):
     async def redditmsg(self, ctx, user, *, message):
         """Send a reddit message to a user"""
         try:
-            # Attempts to send a message to user specified. Includes a subject with author's name and states it was sent via the bot so receivers are aware. Also adds a reaction to let sender know message was successfully sent.
+            # Attempts to send a message to user specified. Includes a subject with author's name and states it was sent via the bot so receivers are aware. Also adds a reaction to let sender know message was successfully sent
             self.reddit.redditor(user).message(f'This is a message sent from {ctx.author} via Mikey#1211', message)
             return await ctx.message.add_reaction(emoji='<:check:688848512103743511>')
         except:
-            # If message sending fails, returns error message.
+            # If message sending fails, returns error message
             return await ctx.send('There was an error sending the message.')
 
     @commands.group(aliases=['karma', 'ri'], invoke_without_command=True)
     async def redditinfo(self, ctx, redditor=None):
         """Look at a reddit account's info"""
+        # Creates a string version of the user's ID, to be used in the database queries
         user_id = str(ctx.author.id)
+        # If no redditor is states, bot searches database to see if user already set their username
         if redditor is None:
             redditU = await self.bot.pg_con.fetch("SELECT reddit_name FROM user_info WHERE user_id = $1", user_id)
+            # If no entry for that user is found, send a message explaining how to set a username
             if not redditU:
-                return await ctx.send('No username specified. To store your reddit username use `redditinfo set <username>`')
+                return await ctx.send(
+                    'No username specified. To store your reddit username use `redditinfo set <username>`')
+            # Converts redditor entry from database into a string, which can be understood by Reddit's API (praw)
             redditor = redditU[0][0]
 
         # Simplifies the redditor, so it's easier to later use for info.
-
         user = self.reddit.redditor(redditor)
 
         # Formats karma to include commas. Also calculates total karma.
@@ -145,15 +150,20 @@ class reddit(commands.Cog):
         # Sends embed
         await ctx.send(embed=redditInfoEmbed)
 
+    #Subcommand which allows user to set their reddit username
     @redditinfo.command()
     async def set(self, ctx, username):
+        # Creates a string version of the user's ID, to be used in the database queries
         user_id = str(ctx.author.id)
+        # Fetches user's entry in the table, if non-existent bot creates one
         user = await self.bot.pg_con.fetch("SELECT * FROM user_info WHERE user_id = $1", user_id)
+        # Creates entry for that user
         if not user:
             await self.bot.pg_con.execute("INSERT INTO user_info (user_id) VALUES ($1)", user_id)
+        # Updates user entry to new reddit username, one that the user provided
         await self.bot.pg_con.execute("UPDATE user_info SET reddit_name = $1 WHERE user_id = $2", username, user_id)
+        # Adds a reaction to user's message to let them know process is successful/completed
         await ctx.message.add_reaction('<:check:688848512103743511>')
-
 
 
 def setup(bot):
