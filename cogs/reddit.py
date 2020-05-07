@@ -113,7 +113,7 @@ class reddit(commands.Cog):
             # If message sending fails, returns error message.
             return await ctx.send('There was an error sending the message.')
 
-    @commands.group(aliases=['karma', 'ri'], invoke_without_commands=True)
+    @commands.group(aliases=['karma', 'ri'], invoke_without_command=True)
     async def redditinfo(self, ctx, redditor=None):
         """Look at a reddit account's info"""
         user_id = str(ctx.author.id)
