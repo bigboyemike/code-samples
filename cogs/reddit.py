@@ -118,11 +118,13 @@ class reddit(commands.Cog):
         """Look at a reddit account's info"""
         user_id = str(ctx.author.id)
         if redditor is None:
-            redditor = await self.bot.pg_con.fetch("SELECT reddit_name FROM user_info WHERE user_id = $1", user_id)
-            if not redditor:
+            redditU = await self.bot.pg_con.fetch("SELECT reddit_name FROM user_info WHERE user_id = $1", user_id)
+            if not redditU:
                 return await ctx.send('No username specified. To store your reddit username use `redditinfo set <username>`')
+            redditor = redditU[0][0]
 
         # Simplifies the redditor, so it's easier to later use for info.
+
         user = self.reddit.redditor(redditor)
 
         # Formats karma to include commas. Also calculates total karma.
